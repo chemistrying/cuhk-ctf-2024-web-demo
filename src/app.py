@@ -37,12 +37,11 @@ def login():
     with db.cursor() as conn:
         conn.execute(f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'")
         result = conn.fetchall()
-        if len(result) > 0:
+        if len(result) > 0 and (not username == 'admin' or request.remote_addr == '127.0.0.1'): # Second part checks admin logic: only local can have access
             # Ok
             session['username'] = username
             return redirect("/")
     return render_template("login.html", hint="Invalid username or password!")
-
 
 @app.route("/logout")
 def logout():
