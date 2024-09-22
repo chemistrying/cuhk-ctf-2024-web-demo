@@ -22,6 +22,7 @@ DROP TABLE IF EXISTS `posts`;
 CREATE TABLE `posts`(
     `id` BIGINT(20) NOT NULL,
     `author_id` BIGINT(20) NOT NULL,
+    `title` VARCHAR(255) NOT NULL,
     `content` TEXT NOT NULL,
     PRIMARY KEY (`id`)
 );
