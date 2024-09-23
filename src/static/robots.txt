@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /flag2.txt
-Disallow: /source.tar.gz
+Disallow: /source
 Disallow: /admin
