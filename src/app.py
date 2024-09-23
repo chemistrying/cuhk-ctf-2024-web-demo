@@ -36,6 +36,8 @@ def index():
 
 @app.route("/source")
 def source():
+    if session.get('username') is None:
+        return redirect("/")
     return send_file("./source.tar.gz")
 
 @app.route("/login", methods=['GET', 'POST'])
