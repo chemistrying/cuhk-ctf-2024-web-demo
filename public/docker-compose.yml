@@ -1,0 +1,33 @@
+services:
+  web-demo-db:
+    image: mysql
+    restart: always
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_DATABASE=db
+      - MYSQL_USER=ctfuser
+      - MYSQL_PASSWORD=fake_password
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  web-demo:
+    build: .
+    restart: on-failure:10
+    environment:
+      - PORT=8080
+      - MYSQL_DATABASE=db
+      - MYSQL_USER=ctfuser
+      - MYSQL_PASSWORD=fake_password
+      - FLAG1=cuhk24ctf{test_flag}
+      - ADMIN_PASSWORD=cuhk24ctf{test-flag}
+    ports:
+      - 23999:8080
+    depends_on:
+      web-demo-db:
+        condition: service_healthy
+  

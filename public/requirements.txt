@@ -1,0 +1,5 @@
+Flask==3.0.3
+gunicorn==22.0.0
+mysql-connector-python==9.0.0
+Flask-Limiter==3.8.0
+selenium==4.24.0
