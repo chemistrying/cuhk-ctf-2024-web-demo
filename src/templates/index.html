@@ -28,6 +28,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/visit">Visit</a>
                     </li>
+                    {% if is_admin %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/code">Code</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="row justify-content-end">
@@ -55,7 +60,12 @@
         {% if logged %}
         {{ flag1 }}
         {% endif %}
-
+        {% if secret %}
+        My little secret: {{ secret }}
+        {% endif %}
+        {% if is_admin %}
+        Welcome back admin!
+        {% endif %}
     </div>
     <!-- cuhk24ctf{flag0_w0w_you_know_how_to_read_page_source} -->
     <footer class="footer">
