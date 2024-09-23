@@ -1,5 +1,5 @@
-from flask import Flask, request, render_template, session, redirect
-import os, time
+from flask import Flask, request, render_template, session, redirect, send_file
+import os, time, subprocess, uuid
 import mysql.connector
 
 from flask_limiter import Limiter
@@ -26,7 +26,17 @@ def get_db():
 
 @app.route("/")
 def index():
-    return render_template("index.html", flag1=FLAG1, logged=session.get('username') is not None)
+    if session.get('username') is not None:
+        db = get_db()
+        with db.cursor() as conn:
+            conn.execute(f"SELECT secret FROM users WHERE username = '{session.get('username')}'")
+            secret = conn.fetchall()[0][0]
+        return render_template("index.html", flag1=FLAG1, logged=session.get('username') is not None, is_admin=session.get('username') == 'admin', secret=secret)
+    return render_template("index.html", flag1=FLAG1, logged=session.get('username') is not None, is_admin=session.get('username') == 'admin')
+
+@app.route("/source")
+def source():
+    return send_file("./source.tar.gz")
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -43,7 +53,7 @@ def login():
     # Login logic
     db = get_db()
     with db.cursor() as conn:
-        conn.execute(f"SELECT username FROM users WHERE BINARY username = '{username}' AND BINARY password = '{password}'")
+        conn.execute(f"SELECT username, secret FROM users WHERE BINARY username = '{username}' AND BINARY password = '{password}'")
         result = conn.fetchall()
         app.logger.fatal(request.remote_addr)
         if len(result) > 0 and (not result[0][0] == 'admin' or request.remote_addr == '127.0.0.1'): # Second part checks admin logic: only local can have access
@@ -94,6 +104,31 @@ def forum():
             posts_dict = [dict(zip(['id', 'author_id', 'title', 'content', 'date'], row)) for row in posts_result]
             app.logger.debug("CHANGED:", posts_dict)
             return render_template("forum.html", posts=posts_dict, users=users_dict)  
+
+@app.route("/code", methods=['GET', 'POST'])
+def code():
+    if session.get('username') != 'admin':
+        return redirect("/")
+
+    if request.method == 'GET':
+        return render_template("code.html")
+    elif request.method == 'POST':
+        if 'password' not in request.form.keys() or 'code' not in request.form.keys():
+            return render_template("code.html", hint="Invalid parameters!")
+    
+        password, code = request.form.get('password'), request.form.get('code')
+        if password == os.environ.get('ADMIN_PASSWORD'):
+            # Trust admin, run code
+            id = uuid.uuid4()
+            with open(f"/tmp/{id}.py", "w") as f:
+                f.write(code)
+                f.flush()
+
+            completed_process = subprocess.run(["python", f"/tmp/{id}.py"], timeout=2, capture_output=True)
+            return render_template("code.html", returncode=completed_process.returncode, output=completed_process.stdout.decode(), error=completed_process.stderr.decode())
+
+        return render_template("code.html", hint="Invalid admin password!")
+
 
 limiter = Limiter(
     get_remote_address,
@@ -154,6 +189,7 @@ def visit():
 
         # Visit forum
         driver.get(url + '/forum')
+        time.sleep(2)
         return render_template('visit.html', hint='Admin has visited your URL!')
     except Exception as e:
         return render_template('visit.html', hint=str(e))
