@@ -62,7 +62,6 @@ def login():
     with db.cursor() as conn:
         conn.execute(f"SELECT username, secret FROM users WHERE BINARY username = '{username}' AND BINARY password = '{password}'")
         result = conn.fetchall()
-        app.logger.fatal(request.remote_addr)
         if len(result) > 0 and (not result[0][0] == 'admin' or request.remote_addr == '127.0.0.1'): # Second part checks admin logic: only local can have access
             # Ok
             session['username'] = result[0][0]
