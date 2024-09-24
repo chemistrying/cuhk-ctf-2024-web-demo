@@ -14,6 +14,7 @@ DB_USER = os.environ.get('MYSQL_USER')
 DB_PASS = os.environ.get('MYSQL_PASSWORD')
 DB_NAME = os.environ.get('MYSQL_DATABASE')
 
+FLAG0 = os.environ.get('FLAG0')
 FLAG1 = os.environ.get('FLAG1')
 
 def get_db():
@@ -39,6 +40,10 @@ def source():
     if session.get('username') is None:
         return redirect("/")
     return send_file("./source.tar.gz")
+
+@app.route("/flag0")
+def flag0():
+    return FLAG0
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():

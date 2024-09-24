@@ -23,6 +23,7 @@ services:
       - MYSQL_DATABASE=db
       - MYSQL_USER=ctfuser
       - MYSQL_PASSWORD=cows-forward-fill-born
+      - FLAG0=cuhk24ctf{flag0_w0w_you_know_how_to_read_network_traffic}
       - FLAG1=cuhk24ctf{flag1_w0w_this_is_probably_your_furst_seek_cool_injection_method}
       - ADMIN_PASSWORD=cuhk24ctf{flag4_0w0_you_got_admin_password_of_the_website}
     ports:

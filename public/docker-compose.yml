@@ -23,6 +23,7 @@ services:
       - MYSQL_DATABASE=db
       - MYSQL_USER=ctfuser
       - MYSQL_PASSWORD=fake_password
+      - FLAG0=cuhk24ctf{test-flag}
       - FLAG1=cuhk24ctf{test_flag}
       - ADMIN_PASSWORD=cuhk24ctf{test-flag}
     ports:
