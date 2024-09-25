@@ -7,11 +7,11 @@ Flag format: `cuhk24ctf{[a-zA-Z0-9_]+}`
 NOTE: PLEASE RUN THIS LOCALLY WITHOUT EXPOSING THE PORT OR THERE MIGHT BE RISKS OF GETTING YOUR COMPUTER COMPROMISED.
 
 # Run the vulnerable server locally
-1. Clone the repository.
+1. Open terminal and clone the repository.
 ```sh
 git clone https://github.com/chemistrying/cuhk-ctf-2024-web-demo
 ```
-2. Open terminal and change directory to `src`.
+2. Change directory to `src`.
 ```sh
 cd src
 ```
