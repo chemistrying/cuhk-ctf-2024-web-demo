@@ -18,7 +18,7 @@ services:
   web-demo:
     build: .
     restart: on-failure:10
-    deploy: {resources: {limits: {cpus: '1', memory: 512M}}}
+    deploy: {resources: {limits: {cpus: '1', memory: 256M}}}
     environment:
       - PORT=8080
       - MYSQL_DATABASE=db
