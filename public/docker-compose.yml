@@ -2,6 +2,7 @@ services:
   web-demo-db:
     image: mysql
     restart: always
+    deploy: {resources: {limits: {cpus: '1', memory: 256M}}}
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_DATABASE=db
