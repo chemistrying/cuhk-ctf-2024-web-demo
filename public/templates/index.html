@@ -29,7 +29,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/visit">Visit</a>
                     </li>
-                    {% if is_admin %}
+                    {% if username is 'admin' %}
                     <li class="nav-item">
                         <a class="nav-link" href="/code">Code</a>
                     </li>
@@ -58,15 +58,21 @@
             Please login to proceed.
             {% endif %}
         </h3>
-        {% if logged %}
-        {{ flag1 }}
-        {% endif %}
-        {% if secret %}
-        My little secret: {{ secret }}
-        {% endif %}
-        {% if is_admin %}
-        Welcome back admin!
-        {% endif %}
+        <p>
+            {% if logged %}
+            {{ flag1 }}
+            {% endif %}
+        </p>
+        <p>
+            {% if secret %}
+            My little secret: {{ secret }}
+            {% endif %}
+        </p>
+        <p>
+            {% if username %}
+            Welcome back {{ username }}!
+            {% endif %}
+        </p>
     </div>
     <footer class="footer">
         <div class="container w-100 mb-3 mt-3 text-center text-secondary">
