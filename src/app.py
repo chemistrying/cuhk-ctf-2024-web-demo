@@ -66,6 +66,8 @@ def login():
             # Ok
             session['username'] = result[0][0]
             return redirect("/")
+        elif len(result) > 0 and result[0][0] == 'admin':
+            return render_template("login.html", hint="Admin account not available for your IP address!")
     return render_template("login.html", hint="Invalid username or password!")
 
 @app.route("/logout")
