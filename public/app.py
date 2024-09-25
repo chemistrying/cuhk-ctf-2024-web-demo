@@ -32,7 +32,7 @@ def index():
         with db.cursor() as conn:
             conn.execute(f"SELECT secret FROM users WHERE username = '{session.get('username')}'")
             secret = conn.fetchall()[0][0]
-        return render_template("index.html", flag1=FLAG1, logged=session.get('username') is not None, is_admin=session.get('username') == 'admin', secret=secret)
+        return render_template("index.html", flag1=FLAG1, logged=session.get('username') is not None, username=session.get('username'), secret=secret)
     return render_template("index.html", flag1=FLAG1, logged=session.get('username') is not None, is_admin=session.get('username') == 'admin')
 
 @app.route("/source")
@@ -62,7 +62,6 @@ def login():
     with db.cursor() as conn:
         conn.execute(f"SELECT username, secret FROM users WHERE BINARY username = '{username}' AND BINARY password = '{password}'")
         result = conn.fetchall()
-        app.logger.fatal(request.remote_addr)
         if len(result) > 0 and (not result[0][0] == 'admin' or request.remote_addr == '127.0.0.1'): # Second part checks admin logic: only local can have access
             # Ok
             session['username'] = result[0][0]

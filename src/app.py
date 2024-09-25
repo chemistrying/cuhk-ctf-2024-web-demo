@@ -32,7 +32,7 @@ def index():
         with db.cursor() as conn:
             conn.execute(f"SELECT secret FROM users WHERE username = '{session.get('username')}'")
             secret = conn.fetchall()[0][0]
-        return render_template("index.html", flag1=FLAG1, logged=session.get('username') is not None, is_admin=session.get('username') == 'admin', secret=secret)
+        return render_template("index.html", flag1=FLAG1, logged=session.get('username') is not None, username=session.get('username'), secret=secret)
     return render_template("index.html", flag1=FLAG1, logged=session.get('username') is not None, is_admin=session.get('username') == 'admin')
 
 @app.route("/source")
