@@ -2,6 +2,8 @@
 
 This repo demostrates some common web vulnerabilities including SQL injection, Cross-site scripting (XSS), and remote code execution (RCE). The challenge should be done without looking at the source code of the repository. However, you will be able to obtain the source code after finishing certain stages in the challenge.
 
+NOTE: PLEASE RUN THIS LOCALLY WITHOUT EXPOSING THE PORT OR THERE MIGHT BE RISKS OF GETTING YOUR COMPUTER COMPROMISED.
+
 # Run the vulnerable server locally
 1. Clone the repository.
 ```sh
