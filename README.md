@@ -16,7 +16,7 @@ cd src
 3. Install [docker](https://docs.docker.com/get-started/get-docker/). 
 4. Run the server.
 ```sh
-docker compose up
+docker compose up -d
 ```
 You may need to add sudo in front of the command if you haven't set up docker user permission group.
 
