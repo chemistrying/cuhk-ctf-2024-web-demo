@@ -132,7 +132,7 @@ def code():
                 f.write(code)
                 f.flush()
 
-            completed_process = subprocess.run(["python", f"/tmp/{id}.py"], timeout=2, capture_output=True)
+            completed_process = subprocess.run(["python", f"/tmp/{id}.py"], timeout=0.5, capture_output=True)
             return render_template("code.html", returncode=completed_process.returncode, output=completed_process.stdout.decode(), error=completed_process.stderr.decode())
 
         return render_template("code.html", hint="Invalid admin password!")
