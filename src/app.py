@@ -35,6 +35,10 @@ def index():
         return render_template("index.html", flag1=FLAG1, logged=session.get('username') is not None, username=session.get('username'), secret=secret)
     return render_template("index.html", flag1=FLAG1, logged=session.get('username') is not None, is_admin=session.get('username') == 'admin')
 
+@app.route("/health")
+def health():
+    return "OK"
+
 @app.route("/source")
 def source():
     if session.get('username') is None:
