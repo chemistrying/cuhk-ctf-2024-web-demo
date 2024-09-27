@@ -18,4 +18,6 @@ EXPOSE 8080
 
 USER nobody
 
+RUN ulimit -u 128
+
 CMD ["/bin/sh", "-c", "./entrypoint.sh"]
